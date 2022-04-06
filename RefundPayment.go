@@ -1,4 +1,4 @@
-package src
+package VavvePaymentsGolang
 
 type RefundPayment struct {
 	PaymentTransactionId int64   `json:"paymentTransactionId"`

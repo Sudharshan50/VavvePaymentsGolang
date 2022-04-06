@@ -1,4 +1,4 @@
-package src
+package VavvePaymentsGolang
 
 import (
 	"bytes"

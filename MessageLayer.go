@@ -1,4 +1,4 @@
-package src
+package VavvePaymentsGolang
 
 type MessageLayer struct {
 	Msgidentifier      string  `json:"msgidentifier"`

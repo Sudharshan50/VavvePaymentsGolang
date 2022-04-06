@@ -1,3 +1,3 @@
-module samplepayment/src
+module VavvePaymentGoLang
 
 go 1.18

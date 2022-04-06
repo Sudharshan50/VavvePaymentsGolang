@@ -1,4 +1,4 @@
-package src
+package VavvePaymentsGolang
 
 type Product struct {
 	OrderItemId     int64   `json:"orderItemId"`

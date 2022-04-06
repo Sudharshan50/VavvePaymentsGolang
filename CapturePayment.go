@@ -1,4 +1,4 @@
-package src
+package VavvePaymentsGolang
 
 type CapturePayment struct {
 	PaymentTransactionId int64  `json:"paymentTransactionId"`
