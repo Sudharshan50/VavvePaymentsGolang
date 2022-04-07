@@ -15,7 +15,7 @@ import (
 	"golang.org/x/crypto/pbkdf2"
 )
 
-func AuthorizePayment(messageLayer MessageLayer, apiKey string, apiSecret string) PayemntResponse {
+func AuthorizePayment(messageLayer *MessageLayer, apiKey string, apiSecret string) PayemntResponse {
 
 	enc := Encrypting(messageLayer.Account, apiSecret, apiKey)
 	messageLayer.Account = enc
@@ -48,7 +48,7 @@ func AuthorizePayment(messageLayer MessageLayer, apiKey string, apiSecret string
 	return payemntResponse
 }
 
-func CapturePaymentPost(capturePayment CapturePayment, apiKey string, apiSecret string) PayemntResponse {
+func CapturePaymentPost(capturePayment *CapturePayment, apiKey string, apiSecret string) PayemntResponse {
 
 	jsonReq, err := json.Marshal(capturePayment)
 
@@ -75,7 +75,7 @@ func CapturePaymentPost(capturePayment CapturePayment, apiKey string, apiSecret 
 	return payemntResponse
 }
 
-func AuthorizeAndCapturePayment(messageLayer MessageLayer, apiKey string, apiSecret string) PayemntResponse {
+func AuthorizeAndCapturePayment(messageLayer *MessageLayer, apiKey string, apiSecret string) PayemntResponse {
 
 	enc := Encrypting(messageLayer.Account, apiSecret, apiKey)
 	messageLayer.Account = enc
@@ -108,7 +108,7 @@ func AuthorizeAndCapturePayment(messageLayer MessageLayer, apiKey string, apiSec
 	return payemntResponse
 }
 
-func RefundAuthorizePayment(refundPayment RefundPayment, apiKey string, apiSecret string) PayemntResponse {
+func RefundAuthorizePayment(refundPayment *RefundPayment, apiKey string, apiSecret string) PayemntResponse {
 
 	jsonReq, err := json.Marshal(refundPayment)
 
@@ -135,7 +135,7 @@ func RefundAuthorizePayment(refundPayment RefundPayment, apiKey string, apiSecre
 	return payemntResponse
 }
 
-func RefundCapturePayment(refundPayment RefundPayment, apiKey string, apiSecret string) PayemntResponse {
+func RefundCapturePayment(refundPayment *RefundPayment, apiKey string, apiSecret string) PayemntResponse {
 
 	jsonReq, err := json.Marshal(refundPayment)
 
@@ -162,7 +162,7 @@ func RefundCapturePayment(refundPayment RefundPayment, apiKey string, apiSecret 
 	return payemntResponse
 }
 
-func VoidAuthorizePayment(voidPayment VoidPayment, apiKey string, apiSecret string) PayemntResponse {
+func VoidAuthorizePayment(voidPayment *VoidPayment, apiKey string, apiSecret string) PayemntResponse {
 
 	jsonReq, err := json.Marshal(voidPayment)
 
@@ -189,7 +189,7 @@ func VoidAuthorizePayment(voidPayment VoidPayment, apiKey string, apiSecret stri
 	return payemntResponse
 }
 
-func VoidCapturePayment(voidPayment VoidPayment, apiKey string, apiSecret string) PayemntResponse {
+func VoidCapturePayment(voidPayment *VoidPayment, apiKey string, apiSecret string) PayemntResponse {
 
 	jsonReq, err := json.Marshal(voidPayment)
 
@@ -216,7 +216,7 @@ func VoidCapturePayment(voidPayment VoidPayment, apiKey string, apiSecret string
 	return payemntResponse
 }
 
-func VoidRefundPayment(voidPayment VoidPayment, apiKey string, apiSecret string) PayemntResponse {
+func VoidRefundPayment(voidPayment *VoidPayment, apiKey string, apiSecret string) PayemntResponse {
 
 	jsonReq, err := json.Marshal(voidPayment)
 
