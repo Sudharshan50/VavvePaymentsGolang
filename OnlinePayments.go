@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/pbkdf2"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
@@ -12,6 +11,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"golang.org/x/crypto/pbkdf2"
 )
 
 func AuthorizePayment(messageLayer MessageLayer, apiKey string, apiSecret string) PayemntResponse {
