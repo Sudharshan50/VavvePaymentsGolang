@@ -19,7 +19,7 @@ const paymentUrl = "http://164.90.146.112:8062"
 
 func GetPayment(apiKey string, apiSecret string, merchantId string, transactionId int64) *CardTransactionDetails {
 
-	req, err := http.Get(fmt.Sprintf(paymentUrl+"/merchant/"+merchantId+"/payments/cards/%T", transactionId))
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(paymentUrl+"/merchant/"+merchantId+"/payments/cards/%d", transactionId), nil)
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
@@ -40,18 +40,21 @@ func GetPayment(apiKey string, apiSecret string, merchantId string, transactionI
 
 func GetPaymentList(apiKey string, apiSecret string, merchantId string, createdDate string) *[]CardTransactionDetails {
 
-	req, err := http.Get(paymentUrl + "/merchant/" + merchantId + "/payments/cards?createdDate=" + createdDate)
+	req, err := http.NewRequest(http.MethodGet, paymentUrl+"/merchant/"+merchantId+"/payments/cards?createdDate="+createdDate, nil)
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	defer req.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(req.Body)
-
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 	var cardTransactionDetails []CardTransactionDetails
 
 	json.Unmarshal(bodyBytes, &cardTransactionDetails)
@@ -156,7 +159,7 @@ func RefundAuthorizePayment(refundPayment *RefundPayment, apiKey string, apiSecr
 
 	jsonReq, err := json.Marshal(refundPayment)
 
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/authorize/%T/refund", refundPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/authorize/%d/refund", refundPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
@@ -183,7 +186,7 @@ func RefundCapturePayment(refundPayment *RefundPayment, apiKey string, apiSecret
 
 	jsonReq, err := json.Marshal(refundPayment)
 
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/capture/%T/refund", refundPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/capture/%d/refund", refundPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
@@ -210,7 +213,7 @@ func VoidAuthorizePayment(voidPayment *VoidPayment, apiKey string, apiSecret str
 
 	jsonReq, err := json.Marshal(voidPayment)
 
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/authorize/%T/void", voidPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/authorize/%d/void", voidPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
@@ -237,7 +240,7 @@ func VoidCapturePayment(voidPayment *VoidPayment, apiKey string, apiSecret strin
 
 	jsonReq, err := json.Marshal(voidPayment)
 
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/capture/%T/void", voidPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/capture/%d/void", voidPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
@@ -264,7 +267,7 @@ func VoidRefundPayment(voidPayment *VoidPayment, apiKey string, apiSecret string
 
 	jsonReq, err := json.Marshal(voidPayment)
 
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/authorize/%T/voidrefund", voidPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf(paymentUrl+"/payments/authorize/%d/voidrefund", voidPayment.PaymentTransactionId), bytes.NewBuffer(jsonReq))
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
