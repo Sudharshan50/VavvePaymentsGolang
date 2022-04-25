@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 
 	"golang.org/x/crypto/pbkdf2"
 )
@@ -40,7 +41,7 @@ func GetPayment(apiKey string, apiSecret string, merchantId string, transactionI
 
 func GetPaymentList(apiKey string, apiSecret string, merchantId string, createdDate string) *[]CardTransactionDetails {
 
-	req, err := http.NewRequest(http.MethodGet, paymentUrl+"/merchant/"+merchantId+"/payments/cards?createdDate="+createdDate, nil)
+	req, err := http.NewRequest(http.MethodGet, paymentUrl+"/merchant/"+merchantId+"/payments/cards?createdDate="+url.QueryEscape(createdDate), nil)
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
@@ -55,8 +56,8 @@ func GetPaymentList(apiKey string, apiSecret string, merchantId string, createdD
 
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
-	var cardTransactionDetails []CardTransactionDetails
 
+	var cardTransactionDetails []CardTransactionDetails
 	json.Unmarshal(bodyBytes, &cardTransactionDetails)
 
 	return &cardTransactionDetails
