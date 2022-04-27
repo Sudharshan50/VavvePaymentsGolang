@@ -33,7 +33,6 @@ func GetPayment(apiKey string, apiSecret string, merchantId string, transactionI
 	bodyBytes, _ := ioutil.ReadAll(req.Body)
 
 	var cardTransactionDetails CardTransactionDetails
-
 	json.Unmarshal(bodyBytes, &cardTransactionDetails)
 
 	return &cardTransactionDetails
