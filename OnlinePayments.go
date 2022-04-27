@@ -25,12 +25,16 @@ func GetPayment(apiKey string, apiSecret string, merchantId string, transactionI
 	req.Header.Set("X-API-KEY", apiKey)
 	req.Header.Set("X-API-SECRET", apiSecret)
 
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	defer req.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(req.Body)
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
 	var cardTransactionDetails CardTransactionDetails
 	json.Unmarshal(bodyBytes, &cardTransactionDetails)
